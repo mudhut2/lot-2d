@@ -7,14 +7,14 @@
 #include <raylib.h>
 
 enum TileType { EMPTY, WALL, WATER };
+static int tileSize = 15;
 
 class Tile {
 public:
     TileType type;
     Vector2 position;
-    int size;
 
-    Tile(TileType t, Vector2 pos, int s) : type(t), position(pos), size(s) {}
+    Tile(TileType t, Vector2 pos) : type(t), position(pos){}
 
     void draw(){
         Color color = GRAY;
@@ -23,11 +23,13 @@ public:
             case WALL:  color = DARKGRAY; break;
             case WATER: color = BLUE; break;
         }
-        DrawRectangle(position.x, position.y, size,size, color);
+        DrawRectangle(position.x, position.y, tileSize, tileSize, color);
     }
 
     bool isWalkable(){
         return type == EMPTY || type == WATER;
     }
+private:
+
 };
 #endif //GAME1_TILE_H
