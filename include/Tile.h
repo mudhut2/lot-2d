@@ -1,35 +1,28 @@
-//
-// Created by Harrison groves on 9/3/25.
-//
-
 #ifndef GAME1_TILE_H
 #define GAME1_TILE_H
 #include <raylib.h>
 
-enum TileType { EMPTY, WALL, WATER };
-static int tileSize = 15;
+enum TileType { EMPTY = 0, WALL = 1, WATER = 2 };
+static int tileSize = 80;
 
 class Tile {
 public:
     TileType type;
     Vector2 position;
 
-    Tile(TileType t, Vector2 pos) : type(t), position(pos){}
+    Tile(TileType t = EMPTY, Vector2 pos = {0,0})
+        : type(t), position(pos) {}
 
-    void draw(){
-        Color color = GRAY;
-        switch(type) {
-            case EMPTY: color = LIGHTGRAY; break;
-            case WALL:  color = DARKGRAY; break;
-            case WATER: color = BLUE; break;
-        }
-        DrawRectangle(position.x, position.y, tileSize, tileSize, color);
+    void draw(Texture2D& texture) {
+        // scale texture to tileSize
+        Rectangle src = {0, 0, (float)texture.width, (float)texture.height};
+        Rectangle dest = {position.x, position.y, (float)tileSize, (float)tileSize};
+        DrawTexturePro(texture, src, dest, {0,0}, 0.0f, WHITE);
     }
 
-    bool isWalkable(){
+    bool isWalkable() {
         return type == EMPTY || type == WATER;
     }
-private:
-
 };
+
 #endif //GAME1_TILE_H

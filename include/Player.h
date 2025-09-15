@@ -11,10 +11,9 @@ public:
     Player();
     Vector2 size;
     Vector2 position;
-    float velocity;
     void update();
     void draw();
-
+    bool isUpright;
 private:
 };
 

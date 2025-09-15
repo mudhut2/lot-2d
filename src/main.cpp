@@ -1,29 +1,28 @@
-#include <iostream>
 #include <raylib.h>
-#include "../include/Player.h"
-#include "../include/Tile.h"
 #include "../include/Level.h"
+#include "../include/Player.h"
 
-int main(){
-    const int screenWidth = 1024;
-    const int screenHeight = 768;
+int main() {
+    InitWindow(1024, 768, "Tilemap Game");
+    SetTargetFPS(64);
 
+    Level level;
     Player player;
-    Level level(20, 15);
-    InitWindow(screenWidth, screenHeight, "Raylib Project");
-    SetTargetFPS(60);
-
+    level.loadTextures();
+    level.loadFromCSV("../levels/level.csv");
 
     while (!WindowShouldClose()) {
+        player.update();
         BeginDrawing();
-            ClearBackground(RAYWHITE);
-            DrawText("Hello Raylib!", 200, 200, 20, LIGHTGRAY);
-            player.update();
-            player.draw();
-            level.draw();
+        ClearBackground(GRAY);
+
+        level.draw();
+        player.draw();
+
         EndDrawing();
     }
 
+    level.unloadTextures();
     CloseWindow();
     return 0;
 }
