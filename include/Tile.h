@@ -3,7 +3,7 @@
 #include <raylib.h>
 
 enum TileType { EMPTY = 0, WALL = 1, WATER = 2 };
-static int tileSize = 80;
+const int tileSize = 80;
 
 class Tile {
 public:

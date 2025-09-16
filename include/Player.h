@@ -6,6 +6,12 @@
 #define GAME1_PLAYER_H
 #include <raylib.h>
 
+enum Orientation
+{
+    UPRIGHT,
+    HORIZONTAL,
+    VERTICAL
+};
 class Player {
 public:
     Player();
@@ -13,8 +19,13 @@ public:
     Vector2 position;
     void update();
     void draw();
-    bool isUpright;
+    Orientation orientation;
+    Texture2D playerTexture;
 private:
+    void rollLeft();
+    void rollRight();
+    void rollUp();
+    void rollDown();
 };
 
 
