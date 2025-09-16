@@ -1,9 +1,10 @@
 #include <raylib.h>
+#include "../include/main.h"
 #include "../include/Level.h"
 #include "../include/Player.h"
 
 int main() {
-    InitWindow(1024, 768, "Tilemap Game");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tilemap Game");
     SetTargetFPS(64);
 
     Level level;
@@ -21,7 +22,6 @@ int main() {
 
         EndDrawing();
     }
-
     level.unloadTextures();
     CloseWindow();
     return 0;

@@ -29,6 +29,7 @@ add_executable(${PROJECT_NAME}
         src/Level.cpp
         src/Player.cpp
         src/Tile.cpp
+        include/main.h
 )
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)

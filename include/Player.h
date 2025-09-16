@@ -21,12 +21,12 @@ public:
     void draw();
     Orientation orientation;
     Texture2D playerTexture;
+
 private:
     void rollLeft();
     void rollRight();
     void rollUp();
     void rollDown();
 };
-
 
 #endif //GAME1_PLAYER_H

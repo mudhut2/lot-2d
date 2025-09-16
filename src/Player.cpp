@@ -3,88 +3,139 @@
 //
 #include "../include/Player.h"
 #include "../include/Tile.h"
+#include "../include/main.h"
 
-Player::Player(){
-    size = { 160.0f, 80.0f };
+const int TILE = 86;
+const int DOUBLE_TILE  = 172;
+
+Player::Player() {
+    size = { DOUBLE_TILE, TILE };  // start horizontal
     position = { 0, 0 };
     orientation = HORIZONTAL;
     playerTexture = LoadTexture("../textures/fingerTex.png");
 }
 
 void Player::draw() {
+    // Draw background rectangle under the texture
     DrawRectangleV(position, size, BLUE);
+    // Draw the texture on top
     Rectangle source = { 0.0f, 0.0f, (float)playerTexture.width, (float)playerTexture.height };
-    Rectangle dest = { position.x, position.y, size.x, size.y };
-    Vector2 origin = { 0, 0 }; // top-left corner
+    Rectangle dest   = { position.x, position.y, size.x, size.y };
+    Vector2 origin   = { 0, 0 };
     DrawTexturePro(playerTexture, source, dest, origin, 0.0f, WHITE);
 }
-
 
 void Player::update() {
     if (IsKeyPressed(KEY_A)) rollLeft();
     if (IsKeyPressed(KEY_D)) rollRight();
     if (IsKeyPressed(KEY_W)) rollUp();
     if (IsKeyPressed(KEY_S)) rollDown();
-
-    // clamp to window bounds
-    if (position.x < 0) position.x = 0;
-    if (position.y < 0) position.y = 0;
-    if (position.x + size.x > 1024) position.x = 1024 - size.x;
-    if (position.y + size.y > 768) position.y = 768 - size.y;
 }
 
 void Player::rollLeft() {
+    float newX = position.x;
+    float newY = position.y;
+    Vector2 newSize = size;
+    Orientation newOrientation = orientation;
+
     if (orientation == UPRIGHT) {
-        position.x -= size.x;
-        orientation = HORIZONTAL;
-        size = { 2*80.0f, 80.0f };
+        newX -= size.x * 2;
+        newOrientation = HORIZONTAL;
+        newSize = { DOUBLE_TILE, TILE };
     } else if (orientation == HORIZONTAL) {
-        position.x -= 80.0f;       // move one tile left
-        orientation = UPRIGHT;
-        size = { 80.0f, 80.0f };
+        newX -= TILE;
+        newOrientation = UPRIGHT;
+        newSize = { TILE, TILE };
     } else if (orientation == VERTICAL) {
-        position.x -= 80.0f;       // slide while vertical
+        newX -= TILE;
+    }
+
+    if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
+        position.x = newX;
+        position.y = newY;
+        size = newSize;
+        orientation = newOrientation;
     }
 }
 
 void Player::rollRight() {
+    float newX = position.x;
+    float newY = position.y;
+    Vector2 newSize = size;
+    Orientation newOrientation = orientation;
+
     if (orientation == UPRIGHT) {
-        position.x += size.x;
-        orientation = HORIZONTAL;
-        size = { 2*80.0f, 80.0f };
+        newX += size.x;
+        newOrientation = HORIZONTAL;
+        newSize = { DOUBLE_TILE, TILE };
     } else if (orientation == HORIZONTAL) {
-        position.x += 160.0f;       // advance one tile
-        orientation = UPRIGHT;
-        size = { 80.0f, 80.0f };
+        newX += DOUBLE_TILE;
+        newOrientation = UPRIGHT;
+        newSize = { TILE, TILE };
     } else if (orientation == VERTICAL) {
-        position.x += 80.0f;
+        newX += TILE;
+    }
+
+    if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
+        position.x = newX;
+        position.y = newY;
+        size = newSize;
+        orientation = newOrientation;
     }
 }
 
 void Player::rollUp() {
+    float newX = position.x;
+    float newY = position.y;
+    Vector2 newSize = size;
+    Orientation newOrientation = orientation;
+
     if (orientation == UPRIGHT) {
-        position.y -= size.y * 2;
-        orientation = VERTICAL;
-        size = { 80.0f, 2*80.0f };
+        newY -= size.y * 2;
+        newOrientation = VERTICAL;
+        newSize = { TILE, DOUBLE_TILE };
     } else if (orientation == VERTICAL) {
-        position.y -= 80.0f;       // advance one tile
-        orientation = UPRIGHT;
-        size = { 80.0f, 80.0f };
+        newY -= TILE;
+        newOrientation = UPRIGHT;
+        newSize = { TILE, TILE };
     } else if (orientation == HORIZONTAL) {
-        position.y -= 80.0f;
+        newY -= TILE;
+    }
+
+    if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
+        position.x = newX;
+        position.y = newY;
+        size = newSize;
+        orientation = newOrientation;
     }
 }
 
 void Player::rollDown() {
+    float newX = position.x;
+    float newY = position.y;
+    Vector2 newSize = size;
+    Orientation newOrientation = orientation;
+
     if (orientation == UPRIGHT) {
-        position.y += size.y;
-        orientation = VERTICAL;
-        size = { 80.0f, 2*80.0f };
+        newY += size.y;
+        newOrientation = VERTICAL;
+        newSize = { TILE, DOUBLE_TILE };
     } else if (orientation == VERTICAL) {
-        position.y += 160.0f;       // advance one tile
-        orientation = UPRIGHT;
-        size = { 80.0f, 80.0f };
+        newY += DOUBLE_TILE;
+        newOrientation = UPRIGHT;
+        newSize = { TILE, TILE };
     } else if (orientation == HORIZONTAL) {
-        position.y += 80.0f;
+        newY += TILE;
+    }
+
+    if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
+        position.x = newX;
+        position.y = newY;
+        size = newSize;
+        orientation = newOrientation;
     }
 }

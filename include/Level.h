@@ -19,9 +19,19 @@ public:
     // load textures for each TileType
     void loadTextures() {
         // order must match TileType enum
-        tileTextures.push_back(LoadTexture("../textures/f1.png"));
-        tileTextures.push_back(LoadTexture("../textures/w_grey.jpg"));
-        tileTextures.push_back(LoadTexture("../textures/start_sound.jpg"));
+        tileTextures.push_back(LoadTexture("../textures/f2.png"));          // 0
+        tileTextures.push_back(LoadTexture("../textures/mossy_stone.png")); // 1
+        tileTextures.push_back(LoadTexture("../textures/w_grey.jpg"));      // 2
+        tileTextures.push_back(LoadTexture("../textures/w_green.jpg"));     // 3
+        tileTextures.push_back(LoadTexture("../textures/f4.jpg"));          // 4
+        tileTextures.push_back(LoadTexture("../textures/start_sound.jpg")); // 5
+        tileTextures.push_back(LoadTexture("../textures/a-tile.jpg"));      // 6
+        tileTextures.push_back(LoadTexture("../textures/b-tile.jpg"));      // 7
+        tileTextures.push_back(LoadTexture("../textures/c-tile.jpg"));      // 8
+        tileTextures.push_back(LoadTexture("../textures/d-tile.jpg"));      // 9
+        tileTextures.push_back(LoadTexture("../textures/e-tile.jpg"));      // 10
+        tileTextures.push_back(LoadTexture("../textures/f-tile.jpg"));      // 11
+        tileTextures.push_back(LoadTexture("../textures/g-tile.jpg"));      // 12
 
         for (int i = 0; i < tileTextures.size(); i++) {
             if (tileTextures[i].id == 0)
