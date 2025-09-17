@@ -4,11 +4,12 @@
 #include "../include/Player.h"
 
 int main() {
-    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Tilemap Game");
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Melodic Block");
     SetTargetFPS(64);
 
     Level level;
     Player player;
+    player.setLevel(&level);
     level.loadTextures();
     level.loadFromCSV("../levels/level.csv");
 

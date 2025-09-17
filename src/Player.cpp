@@ -1,24 +1,22 @@
-//
-// Created by Harrison groves on 9/3/25.
+// Created by Harrison Groves on 9/3/25.
 //
 #include "../include/Player.h"
 #include "../include/Tile.h"
 #include "../include/main.h"
 
 const int TILE = 86;
-const int DOUBLE_TILE  = 172;
+const int DOUBLE_TILE = 172;
 
 Player::Player() {
-    size = { DOUBLE_TILE, TILE };  // start horizontal
+    size = { DOUBLE_TILE, TILE };
     position = { 0, 0 };
     orientation = HORIZONTAL;
     playerTexture = LoadTexture("../textures/fingerTex.png");
+    level = nullptr;
 }
 
 void Player::draw() {
-    // Draw background rectangle under the texture
     DrawRectangleV(position, size, BLUE);
-    // Draw the texture on top
     Rectangle source = { 0.0f, 0.0f, (float)playerTexture.width, (float)playerTexture.height };
     Rectangle dest   = { position.x, position.y, size.x, size.y };
     Vector2 origin   = { 0, 0 };
@@ -51,9 +49,10 @@ void Player::rollLeft() {
     }
 
     if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
-        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
-        position.x = newX;
-        position.y = newY;
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT &&
+        !wouldCollide(newX, newY, newSize))
+    {
+        position = { newX, newY };
         size = newSize;
         orientation = newOrientation;
     }
@@ -78,9 +77,10 @@ void Player::rollRight() {
     }
 
     if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
-        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
-        position.x = newX;
-        position.y = newY;
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT &&
+        !wouldCollide(newX, newY, newSize))
+    {
+        position = { newX, newY };
         size = newSize;
         orientation = newOrientation;
     }
@@ -105,9 +105,10 @@ void Player::rollUp() {
     }
 
     if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
-        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
-        position.x = newX;
-        position.y = newY;
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT &&
+        !wouldCollide(newX, newY, newSize))
+    {
+        position = { newX, newY };
         size = newSize;
         orientation = newOrientation;
     }
@@ -132,10 +133,28 @@ void Player::rollDown() {
     }
 
     if (newX >= 0 && newX + newSize.x <= SCREEN_WIDTH &&
-        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT) {
-        position.x = newX;
-        position.y = newY;
+        newY >= 0 && newY + newSize.y <= SCREEN_HEIGHT &&
+        !wouldCollide(newX, newY, newSize))
+    {
+        position = { newX, newY };
         size = newSize;
         orientation = newOrientation;
     }
+}
+
+bool Player::wouldCollide(float newX, float newY, Vector2 newSize) {
+    if (!level) return false;
+
+    int startX = newX / tileSize;
+    int startY = newY / tileSize;
+    int endX = (newX + newSize.x - 1) / tileSize;
+    int endY = (newY + newSize.y - 1) / tileSize;
+
+    for (int y = startY; y <= endY; ++y) {
+        for (int x = startX; x <= endX; ++x) {
+            if (x < 0 || x >= level->width || y < 0 || y >= level->height) continue;
+            if (!level->getTileAt(x, y).isWalkable()) return true;
+        }
+    }
+    return false;
 }

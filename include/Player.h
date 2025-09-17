@@ -6,8 +6,9 @@
 #define GAME1_PLAYER_H
 #include <raylib.h>
 
-enum Orientation
-{
+#include "Level.h"
+
+enum Orientation {
     UPRIGHT,
     HORIZONTAL,
     VERTICAL
@@ -21,6 +22,11 @@ public:
     void draw();
     Orientation orientation;
     Texture2D playerTexture;
+
+    Level* level = nullptr;
+    void setLevel(Level* lvl) { level = lvl; };
+
+    bool wouldCollide(float newX, float newY, Vector2 newSize);
 
 private:
     void rollLeft();
