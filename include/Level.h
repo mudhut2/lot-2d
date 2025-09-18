@@ -53,6 +53,7 @@ public:
 
                 auto def = tileRegistry[tileId];
                 rowTiles.push_back(Tile(
+                    tileId,
                     def.type,
                     {(float)x * tileSize, (float)y * tileSize},
                     def.name,
@@ -74,8 +75,8 @@ public:
             for (int x = 0; x < width; x++) {
                 Tile& t = tiles[y][x];
                 int id = (int)t.type; // use type as key into registry
-                if (textures.count(id)) {
-                    t.draw(textures[id]);
+                if (textures.count(t.id)) {
+                    t.draw(textures[t.id]);
                 }
             }
         }
@@ -85,11 +86,19 @@ public:
         return tiles[y][x];
     }
 
-    void setTileType(int x, int y, TileType type) {
+    void setTile(int x, int y, int registryId) {
         if (x < 0 || x >= width || y < 0 || y >= height) return;
-        auto def = tileRegistry[(int)type];
-        tiles[y][x] = Tile(type, {(float)x * tileSize, (float)y * tileSize}, def.name, def.walkable, def.soundFile);
+        auto def = tileRegistry[registryId];
+        tiles[y][x] = Tile(
+            registryId,                        // store the correct CSV/registry ID
+            def.type,
+            {(float)x * tileSize, (float)y * tileSize},
+            def.name,
+            def.walkable,
+            def.soundFile
+        );
     }
+
 };
 
 #endif //GAME1_LEVEL_H

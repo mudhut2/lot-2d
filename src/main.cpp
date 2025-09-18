@@ -11,7 +11,7 @@ int main() {
     Player player;
     player.setLevel(&level);
     level.loadTextures();
-    level.loadFromCSV("../levels/level.csv");
+    level.loadFromCSV("../assets/levels/level.csv");
 
     while (!WindowShouldClose()) {
         player.update();

@@ -11,7 +11,7 @@ Player::Player() {
     size = { DOUBLE_TILE, TILE };
     position = { 0, 0 };
     orientation = HORIZONTAL;
-    playerTexture = LoadTexture("../textures/fingerTex.png");
+    playerTexture = LoadTexture("../assets/textures/fingerTex.png");
     level = nullptr;
 }
 
