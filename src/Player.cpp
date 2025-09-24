@@ -24,10 +24,17 @@ void Player::draw() {
 }
 
 void Player::update() {
+    Vector2 oldPos = position;
     if (IsKeyPressed(KEY_A)) rollLeft();
     if (IsKeyPressed(KEY_D)) rollRight();
     if (IsKeyPressed(KEY_W)) rollUp();
     if (IsKeyPressed(KEY_S)) rollDown();
+
+    if (position.x != oldPos.x || position.y != oldPos.y) {
+        if (isOnNote()) {
+            std::cout << "Player rolled onto a NOTE tile!" << std::endl;
+        }
+    }
 }
 
 void Player::rollLeft() {
@@ -158,3 +165,27 @@ bool Player::wouldCollide(float newX, float newY, Vector2 newSize) {
     }
     return false;
 }
+
+bool Player::isOnNote() {
+    if (!level) return false;
+
+    int startX = position.x / tileSize;
+    int startY = position.y / tileSize;
+    int endX   = (position.x + size.x - 1) / tileSize;
+    int endY   = (position.y + size.y - 1) / tileSize;
+
+    for (int y = startY; y <= endY; ++y) {
+        for (int x = startX; x <= endX; ++x) {
+            if (x < 0 || x >= level->width || y < 0 || y >= level->height) continue;
+            Tile& t = level->getTileAt(x, y);
+            if (t.type == NOTE) {
+                std::cout << "Player is on NOTE tile at ("
+                          << x << ", " << y << ") name=" << t.name << std::endl;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+

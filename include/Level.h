@@ -90,7 +90,7 @@ public:
         if (x < 0 || x >= width || y < 0 || y >= height) return;
         auto def = tileRegistry[registryId];
         tiles[y][x] = Tile(
-            registryId,                        // store the correct CSV/registry ID
+            registryId,                     
             def.type,
             {(float)x * tileSize, (float)y * tileSize},
             def.name,
@@ -98,7 +98,6 @@ public:
             def.soundFile
         );
     }
-
 };
 
 #endif //GAME1_LEVEL_H

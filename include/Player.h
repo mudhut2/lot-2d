@@ -5,7 +5,6 @@
 #ifndef GAME1_PLAYER_H
 #define GAME1_PLAYER_H
 #include <raylib.h>
-
 #include "Level.h"
 
 enum Orientation {
@@ -27,6 +26,7 @@ public:
     void setLevel(Level* lvl) { level = lvl; };
 
     bool wouldCollide(float newX, float newY, Vector2 newSize);
+    bool isOnNote();
 
 private:
     void rollLeft();
